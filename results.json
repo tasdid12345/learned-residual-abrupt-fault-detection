@@ -1,0 +1,32 @@
+{
+  "question": "Can a class-balanced gradient-boosting detector on windowed input-output features beat a model-based observer-residual detector for small abrupt parameter faults when the nominal model is imperfect?",
+  "method": "Simulated mass-spring-damper (solve_ivp), random input and noise, abrupt 5-30% stiffness/damping faults, ~5% plant mismatch; baseline Luenberger residual threshold vs class-balanced LightGBM on sliding-window features.",
+  "dataset": {
+    "name": "Simulated mass-spring-damper episodes (scipy solve_ivp)",
+    "source_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html",
+    "n_rows": 61200,
+    "n_train": 30600,
+    "n_test": 30600,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "window-level F1 for fault detection",
+  "higher_is_better": true,
+  "baseline": "Luenberger observer built from nominal parameters; residual RMS over a 2 s window compared with a fixed threshold (99th percentile of fault-free training windows).",
+  "improved": "Class-balanced LightGBM classifier on sliding-window residual and input/output features; decision threshold chosen by grouped 5-fold CV on training episodes.",
+  "metrics": {
+    "baseline_score": 0.04158790170132325,
+    "improved_score": 0.4537047056680115,
+    "improvement": 0.41211680396668826,
+    "baseline_score_std": 0.0,
+    "improved_score_std": 0.007184042856160269,
+    "baseline_far": 0.010831889081455806,
+    "improved_far": 0.35504043905257077,
+    "baseline_small_fault_detection_rate": 0.01875,
+    "improved_small_fault_detection_rate": 0.393125,
+    "baseline_threshold": 0.02952857820116399,
+    "improved_cv_threshold_mean": 0.4666666666666666,
+    "improved_cv_f1_mean": 0.42965287983080436
+  },
+  "notes": "Simulated data only; not the paper's dataset or plant. Train/test split is by episode seed (seeds 0-9 vs 100-109), not random. Windows overlap within episodes; a window is positive if the fault is active at its last sample. Baseline is deterministic, so its std is 0. Small sample of episodes; results depend on the simulated mismatch and noise levels. No paper result is reported for comparison."
+}
