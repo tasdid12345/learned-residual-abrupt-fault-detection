@@ -18,6 +18,29 @@ python analysis.py
 
 **Results:** Results are written to `results.json` (and `figures/f1_comparison.png`).
 
+## Results (latest run)
+
+On a simulated mass-spring-damper dataset (61,200 rows, held-out test episodes), a standard observer-residual threshold detector reached window-level F1 of 0.04, while a class-balanced LightGBM reached 0.45, though its false alarm rate rose to 36%.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.04159 |
+| improved_score | 0.4537 |
+| improvement | 0.4121 |
+| baseline_score_std | 0 |
+| improved_score_std | 0.007184 |
+| baseline_far | 0.01083 |
+| improved_far | 0.355 |
+| baseline_small_fault_detection_rate | 0.01875 |
+| improved_small_fault_detection_rate | 0.3931 |
+| baseline_threshold | 0.02953 |
+| improved_cv_threshold_mean | 0.4667 |
+| improved_cv_f1_mean | 0.4297 |
+
+Run on 2026-10-21. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Simulated data only; not the paper's dataset or plant. Train/test split is by episode seed (seeds 0-9 vs 100-109), not random. Windows overlap within episodes; a window is positive if the fault is active at its last sample. Baseline is deterministic, so its std is 0. Small sample of episodes; results depend on the simulated mismatch and noise levels. No paper result is reported for comparison.
+
 ## Reference
 
 This project is motivated by the following paper:
